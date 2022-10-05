@@ -48,6 +48,7 @@
     </div>
     <div id="main">
       <div id="logout">Odjava</div>
+      <div id="message"></div>
     </div>
 
     <script type="module">
@@ -79,8 +80,8 @@
       const ui = new firebaseui.auth.AuthUI(auth);
 
       // Elements
-      const [login, main, logout] = document.querySelectorAll(
-        "#login, #main, #logout"
+      const [login, main, logout, message] = document.querySelectorAll(
+        "#login, #main, #logout, #message"
       );
 
       auth.onAuthStateChanged((user) => {
@@ -90,32 +91,43 @@
           console.log("USER HERE");
           database.ref("users/" + uid).on("value", (snapshot) => {
             snapshot.val();
+            message.textContent =
+              "This message is synced with Firebase Realtime Database and accessible only to you.";
           });
         } else {
-          // This message is synced with Firebase Realtime Database and accessible only to you.
           // https://firebase.google.com/docs/auth/web/firebaseui
           ui.start("#firebaseui-auth-container", {
             signInOptions: [
-              firebase.auth.EmailAuthProvider.PROVIDER_ID,
-              firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-              firebase.auth.GithubAuthProvider.PROVIDER_ID,
-              firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+              firebase.auth.GoogleAuthProvider.PROVIDER_ID, // done
+              firebase.auth.FacebookAuthProvider.PROVIDER_ID, // done
+              firebase.auth.GithubAuthProvider.PROVIDER_ID, // done
               firebase.auth.OAuthProvider.PROVIDER_ID,
-              firebase.auth.PhoneAuthProvider.PROVIDER_ID,
               firebase.auth.SAMLAuthProvider.PROVIDER_ID,
-              firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-              "microsoft.com",
+              firebase.auth.TwitterAuthProvider.PROVIDER_ID, // done
+              firebase.auth.EmailAuthProvider.PROVIDER_ID, // done
+              firebase.auth.PhoneAuthProvider.PROVIDER_ID, // done
+              "microsoft.com", // done
+              "yahoo.com"
             ],
             callbacks: {
-              signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+              signInSuccessWithAuthResult: (authResult, redirectUrl) => {
+                message.textContent =
+                  "This message is synced with Firebase Realtime Database and accessible only to you.";
                 return false;
+              },
+              signInFailure: function (error) {
+                console.log(error);
+                var cred = error.credential;
               },
             },
           });
         }
       });
 
-      logout.onclick = () => auth.signOut().then(() => {});
+      logout.onclick = () =>
+        auth.signOut().then(() => {
+          message.textContent = "You have been signed out.";
+        });
     </script>
   </body>
 </html>
