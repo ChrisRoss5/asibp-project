@@ -98,26 +98,20 @@
           // https://firebase.google.com/docs/auth/web/firebaseui
           ui.start("#firebaseui-auth-container", {
             signInOptions: [
-              firebase.auth.GoogleAuthProvider.PROVIDER_ID, // done
-              firebase.auth.FacebookAuthProvider.PROVIDER_ID, // done
-              firebase.auth.GithubAuthProvider.PROVIDER_ID, // done
-              firebase.auth.OAuthProvider.PROVIDER_ID,
-              firebase.auth.SAMLAuthProvider.PROVIDER_ID,
-              firebase.auth.TwitterAuthProvider.PROVIDER_ID, // done
-              firebase.auth.EmailAuthProvider.PROVIDER_ID, // done
-              firebase.auth.PhoneAuthProvider.PROVIDER_ID, // done
-              "microsoft.com", // done
-              "yahoo.com"
+              "google.com",
+              "twitter.com",
+              "facebook.com",
+              "github.com",
+              "microsoft.com",
+              "yahoo.com",
+              "password",
+              "phone",
             ],
             callbacks: {
               signInSuccessWithAuthResult: (authResult, redirectUrl) => {
                 message.textContent =
                   "This message is synced with Firebase Realtime Database and accessible only to you.";
                 return false;
-              },
-              signInFailure: function (error) {
-                console.log(error);
-                var cred = error.credential;
               },
             },
           });
