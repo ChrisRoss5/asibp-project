@@ -14,9 +14,20 @@
     <title>ASIBP Projekt</title>
     <style>
       body {
-        background: #ccc;
         height: 100vh;
         margin: 0;
+        background: radial-gradient(#fff, transparent),
+          conic-gradient(
+            #fff,
+            #02bd7e,
+            #db4437,
+            #720e9e,
+            #2f2f2f,
+            #333333,
+            #3b5998,
+            #55acee,
+            #fff
+          );
       }
 
       #login {
@@ -27,28 +38,23 @@
         transform: translate(-50%, -50%);
       }
 
-      #main {
-        background: #fff;
-        height: 100%;
-      }
-
       #logout {
         font-size: 3rem;
         text-align: center;
         padding: 0.5rem 1rem;
-        background-color: #fff;
         cursor: pointer;
       }
     </style>
   </head>
 
   <body>
+    <h1>ASIBP Projekt</h1>
     <div id="login">
       <div id="firebaseui-auth-container"></div>
     </div>
     <div id="main">
-      <div id="logout">Odjava</div>
       <div id="message"></div>
+      <div id="logout">Odjava</div>
     </div>
 
     <script type="module">
