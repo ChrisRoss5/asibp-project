@@ -1,0 +1,44 @@
+<svg xml:space="preserve" viewBox="22 22 50 40" y="0" x="0" xmlns="http://www.w3.org/2000/svg" id="圖層_1" version="1.1" width="200px" height="200px">
+  <style>
+    @keyframes breath {
+      0% {
+        transform: scale(0.9099999999999999);
+      }
+      51% {
+        transform: scale(1.02994);
+      }
+      100% {
+        transform: scale(0.9099999999999999);
+      }
+    }
+</style>
+  <g class="ldl-scale" style="transform-origin: 50% 50%; transform: rotate(0deg) scale(0.8, 0.8);">
+    <g class="ldl-ani">
+      <g class="ldl-layer">
+        <g class="ldl-ani" style="transform-origin: 50px 50px; transform: scale(0.91); animation: 1.11111s linear -0.666667s infinite normal forwards running breath;">
+          <path d="M41.993 22.958h15.598v54.5H41.993z" fill="#abbd81" transform="rotate(45.001 49.793 50.208)" style="fill: rgb(171, 189, 129);"></path>
+        </g>
+      </g>
+      <g class="ldl-layer">
+        <g class="ldl-ani" style="transform-origin: 50px 50px; transform: scale(0.91); animation: 1.11111s linear -0.777778s infinite normal forwards running breath;">
+          <path fill="#e0e0e0" d="M80.055 24.256l-4.312-4.312a4.75 4.75 0 0 0-6.718 0l-5.48 5.48 11.029 11.029 5.48-5.48a4.748 4.748 0 0 0 .001-6.717z" style="fill: rgb(224, 224, 224);"></path>
+        </g>
+      </g>
+      <g class="ldl-layer">
+        <g class="ldl-ani" style="transform-origin: 50px 50px; transform: scale(0.91); animation: 1.11111s linear -0.888889s infinite normal forwards running breath;">
+          <path fill="#f8b26a" d="M25.009 63.962l-2.139 9.234-.946 4.086a.662.662 0 0 0 .794.794l4.086-.946 9.234-2.139-11.029-11.029z" style="fill: rgb(248, 178, 106);"></path>
+        </g>
+      </g>
+      <g class="ldl-layer">
+        <g class="ldl-ani" style="transform-origin: 50px 50px; transform: scale(0.91); animation: 1.11111s linear -1s infinite normal forwards running breath;">
+          <path fill="#333" d="M26.804 77.13l-3.934-3.934-.946 4.086a.662.662 0 0 0 .794.794l4.086-.946z" style="fill: rgb(51, 51, 51);"></path>
+        </g>
+      </g>
+      <g class="ldl-layer">
+        <g class="ldl-ani" style="transform-origin: 50px 50px; transform: scale(0.91); animation: 1.11111s linear -1.11111s infinite normal forwards running breath;">
+          <path d="M66.232 33.768l-31.82 31.82" stroke-miterlimit="10" stroke-width="3" stroke="#849b87" fill="none" style="stroke: rgb(132, 155, 135);"></path>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

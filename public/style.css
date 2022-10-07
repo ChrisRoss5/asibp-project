@@ -1,0 +1,206 @@
+:root {
+  --main-color: #757575;
+  --angle: 45deg;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+body {
+  font-family: Roboto, arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--main-color);
+  background: radial-gradient(#fff, transparent),
+    conic-gradient(
+        #fff,
+        #8f9cac,
+        #02bd7e,
+        #db4437,
+        #720e9e,
+        #2f2f2f,
+        #333333,
+        #3b5998,
+        #55acee,
+        #fff
+      )
+      no-repeat;
+  background-position: 50% 50%;
+  background-size: 500% 500%;
+  animation: init 1s forwards;
+}
+@keyframes init {
+  to {
+    background-size: 100% 100%;
+  }
+}
+#sign-in {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 500ms, transform 500ms;
+}
+#title {
+  font-size: 3rem;
+  text-align: center;
+  padding: 2rem 0;
+}
+#main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#box {
+  margin-bottom: 10%;
+  transition: opacity 500ms, transform 500ms;
+}
+#box img {
+  margin: 0 auto;
+  width: 4rem;
+  padding: 1rem 0;
+}
+#user-email {
+  font-weight: bold;
+  font-size: 1rem;
+}
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  color: inherit;
+  min-height: 10rem;
+  min-width: 400px;
+  max-width: 90vw;
+  padding: 1rem !important;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px #999;
+  outline: none;
+  margin: 1rem 0 3rem 0 !important;
+}
+textarea::placeholder {
+  color: #75757577;
+  font-style: italic;
+}
+.hidden {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+}
+#sign-in.hidden {
+  transform: translate(-50%, -50%) scale(0.8);
+}
+
+@media only screen and (max-width: 768px) {
+  #title {
+    font-size: 2rem;
+  }
+  #box {
+    width: 100%;
+  }
+  textarea {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+/* https://web.dev/css-border-animations/ */
+
+.rainbow {
+  border-radius: 10px;
+  padding: 2rem;
+  display: grid;
+  text-align: center;
+  font-size: 1.5em;
+  border: 0.3rem solid transparent;
+  background: linear-gradient(to right, #fff, #fff),
+    conic-gradient(
+      from var(--angle),
+      #fff,
+      #8f9cac,
+      #02bd7e,
+      #db4437,
+      #720e9e,
+      #2f2f2f,
+      #333333,
+      #3b5998,
+      #55acee,
+      #fff
+    );
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+@supports (background: paint(houdini)) {
+  @property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+  @keyframes rotate {
+    to {
+      --angle: 360deg;
+    }
+  }
+  .rainbow {
+    animation: rotate 4s linear infinite;
+  }
+}
+
+/* https://codepen.io/avstorm/pen/oqKbLq */
+
+#sign-out {
+  position: relative;
+  margin: auto;
+  padding: 19px 22px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  font-size: 0;
+}
+#sign-out:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  border-radius: 28px;
+  background: rgba(255, 171, 157, 0.5);
+  width: 56px;
+  height: 56px;
+  transition: all 0.3s ease;
+}
+#sign-out span {
+  position: relative;
+  font-size: 1rem;
+  line-height: 18px;
+  font-weight: 900;
+  letter-spacing: 0.25rem;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+#sign-out svg {
+  position: relative;
+  top: 5px;
+  margin-left: 15px;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: var(--main-color);
+  stroke-width: 2;
+  transform: translateX(-5px);
+  transition: all 0.3s ease;
+}
+#sign-out:hover:before {
+  width: 100%;
+  background: #ffab9d;
+}
+#sign-out:hover svg {
+  transform: translateX(0);
+}
+#sign-out:active {
+  transform: scale(0.96);
+}

@@ -4,71 +4,39 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <link
       type="text/css"
       rel="stylesheet"
       href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css"
     />
     <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="favicon.svg" />
     <title>ASIBP Projekt</title>
-    <style>
-      body {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        margin: 0;
-        background: radial-gradient(#fff, transparent),
-          conic-gradient(
-            #fff,
-            #02bd7e,
-            #db4437,
-            #720e9e,
-            #2f2f2f,
-            #333333,
-            #3b5998,
-            #55acee,
-            #fff
-          );
-      }
-      h1 {
-        text-align: center;
-        padding: 20px 0;
-      }
-      #main {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      #box {
-        background: #fff;
-        
-      }
-      #login {
-        position: absolute;
-        width: 100%;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-      #logout {
-        text-align: center;
-        padding: 0.5rem 1rem;
-        cursor: pointer;
-      }
-    </style>
   </head>
 
   <body>
-    <h1>ASIBP Projekt</h1>
-    <div id="login">
+    <div id="title">ASIBP Projekt</div>
+    <div id="sign-in" class="hidden">
       <div id="firebaseui-auth-container"></div>
     </div>
     <div id="main">
-      <div id="box">
-        <div id="message"></div>
-        <div id="logout">Odjava</div>
+      <div id="box" class="rainbow hidden">
+        <div id="user-email"></div>
+        <img src="pencil.svg" alt="pencil" />
+        <textarea
+          autocorrect="off"
+          spellcheck="false"
+          maxlength="1000"
+          placeholder="Message you type is synced with Firebase Realtime Database and accessible only to you..."
+        ></textarea>
+        <div id="sign-out">
+          <span>Sign Out</span>
+          <svg width="13px" height="10px" viewBox="0 0 13 10">
+            <path d="M1,5 L11,5"></path>
+            <polyline points="8 1 12 5 8 9"></polyline>
+          </svg>
+        </div>
       </div>
     </div>
 
@@ -77,6 +45,7 @@
       import "https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics-compat.js";
       import "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth-compat.js";
       import "https://www.gstatic.com/firebasejs/9.10.0/firebase-database-compat.js";
+
       // https://firebase.google.com/docs/web/setup#available-libraries
       const firebaseConfig = {
         apiKey: "AIzaSyBVNXCezi1-APmjlIlLz2gjqKOPjdlWFn4",
@@ -94,22 +63,37 @@
       const auth = app.auth();
       const database = app.database();
       const ui = new firebaseui.auth.AuthUI(auth);
+      let uid;
 
       // Elements
-      const [login, main, message, logout] = document.querySelectorAll(
-        "#login, #main, #message, #logout"
-      );
+      const [signInEl, boxEl, userEmailEl, textareaEl, signOutEl] =
+        document.querySelectorAll(
+          "#sign-in, #box, #user-email, textarea, #sign-out"
+        );
+
+      // Autosave
+      textareaEl.addEventListener("input", () => {
+        database.ref("users/" + uid).set(textareaEl.value); // 1,000 writes per second
+      });
 
       // Auth
       auth.onAuthStateChanged((user) => {
         if (user) {
+
           // https://firebase.google.com/docs/reference/js/firebase.User
-          console.log("USER HERE", user);
-          database.ref("users/" + user.uid).on("value", (snapshot) => {
-            message.textContent = snapshot.val();
+          userEmailEl.textContent = user.displayName || user.email;
+          uid = user.uid;
+          signInEl.classList.add("hidden");
+          database.ref("users/" + uid).on("value", (snapshot) => {
+            boxEl.classList.remove("hidden");
+            textareaEl.value = snapshot.val();
           });
         } else {
-          // https://firebase.google.com/docs/auth/web/firebaseui
+
+          // https://github.com/firebase/firebaseui-web
+          boxEl.classList.add("hidden");
+          signInEl.classList.remove("hidden");
+          textareaEl.value = "";
           ui.start("#firebaseui-auth-container", {
             signInOptions: [
               "google.com",
@@ -120,27 +104,29 @@
               "yahoo.com",
               "password",
               "phone",
+              {
+                provider: "openid.aaiedu",
+                providerName: "AAIedu",
+                buttonColor: "#8F9CAC",
+                iconUrl:
+                  "https://www.aaiedu.hr/sites/default/files/favicon.ico",
+              },
             ],
             callbacks: {
               signInSuccessWithAuthResult: (authResult, redirectUrl) => {
+                return false;
                 if (authResult.additionalUserInfo.isNewUser) {
                   database
                     .ref("users/" + authResult.user.uid)
-                    .set(
-                      "This message is synced with Firebase Realtime Database and accessible only to you."
-                    );
+                    .set("Default message maybe?");
                 }
-                return false;
               },
             },
           });
         }
       });
 
-      logout.onclick = () =>
-        auth.signOut().then(() => {
-          message.textContent = "You have been signed out.";
-        });
+      signOutEl.onclick = () => auth.signOut();
     </script>
   </body>
 </html>
