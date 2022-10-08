@@ -30,11 +30,13 @@ body {
       no-repeat;
   background-position: 50% 50%;
   background-size: 500% 500%;
+  overflow-x: hidden;
   animation: init 1s forwards;
 }
 @keyframes init {
   to {
     background-size: 100% 100%;
+    opacity: 1;
   }
 }
 #sign-in {
@@ -43,12 +45,14 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  transition: opacity 500ms, transform 500ms;
+  transition: opacity 500ms 250ms, transform 500ms 250ms;
 }
 #title {
   font-size: 3rem;
   text-align: center;
   padding: 2rem 0;
+  opacity: 0;
+  animation: init 1s 500ms forwards;
 }
 #main {
   flex: 1;
@@ -93,10 +97,12 @@ textarea::placeholder {
   pointer-events: none;
 }
 #sign-in.hidden {
-  transform: translate(-50%, -50%) scale(0.8);
+  transform: translate(-50%, -50%) scale(1.2);
 }
-
-@media only screen and (max-width: 768px) {
+@media (max-width: 768px) {
+  #sign-in {
+    top: calc(50% + 2rem);
+  }
   #title {
     font-size: 2rem;
   }
@@ -106,6 +112,19 @@ textarea::placeholder {
   textarea {
     width: 100%;
     min-width: 0;
+  }
+}
+@media (orientation: landscape) and (max-height: 768px) {
+  html {
+    font-size: 12px;
+  }
+  .firebaseui-container {
+    max-width: 300px !important;
+  }
+  .firebaseui-idp-list {
+    columns: 3;
+    width: 300%;
+    transform: translateX(calc(100% / -3));
   }
 }
 
