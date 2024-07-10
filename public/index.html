@@ -8,15 +8,15 @@
     <link
       type="text/css"
       rel="stylesheet"
-      href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css"
+      href="https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.css"
     />
-    <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.js"></script>
     <link rel="icon" href="favicon.ico" />
-    <title>ASIBP Projekt</title>
+    <title>ASIBP Project</title>
   </head>
 
   <body>
-    <div id="title">ASIBP Projekt</div>
+    <div id="title">ASIBP Project</div>
     <div id="sign-in" class="hidden">
       <div id="firebaseui-auth-container"></div>
     </div>
@@ -41,10 +41,9 @@
     </div>
 
     <script type="module">
-      import "https://www.gstatic.com/firebasejs/9.10.0/firebase-app-compat.js";
-      import "https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics-compat.js";
-      import "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth-compat.js";
-      import "https://www.gstatic.com/firebasejs/9.10.0/firebase-database-compat.js";
+      import "https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js";
+      import "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth-compat.js";
+      import "https://www.gstatic.com/firebasejs/10.0.0/firebase-database-compat.js";
 
       // https://firebase.google.com/docs/web/setup#available-libraries
       const firebaseConfig = {
@@ -56,10 +55,8 @@
         storageBucket: "test-c3ebf.appspot.com",
         messagingSenderId: "820675617398",
         appId: "1:820675617398:web:4ab0bd506a6a5894a5f557",
-        measurementId: "G-DFS7DWMTB1",
       };
       const app = firebase.initializeApp(firebaseConfig);
-      const analytics = app.analytics();
       const auth = app.auth();
       const database = app.database();
       const ui = new firebaseui.auth.AuthUI(auth);
@@ -79,7 +76,6 @@
       // Auth
       auth.onAuthStateChanged((user) => {
         if (user) {
-
           // https://firebase.google.com/docs/reference/js/firebase.User
           userEmailEl.textContent = user.displayName || user.email;
           uid = user.uid;
@@ -89,7 +85,6 @@
             textareaEl.value = snapshot.val();
           });
         } else {
-
           // https://github.com/firebase/firebaseui-web
           boxEl.classList.add("hidden");
           signInEl.classList.remove("hidden");
@@ -112,14 +107,23 @@
                   "https://www.aaiedu.hr/sites/default/files/favicon.ico",
               },
             ],
+            signInFlow: "popup",
             callbacks: {
               signInSuccessWithAuthResult: (authResult, redirectUrl) => {
-                return false;
-                if (authResult.additionalUserInfo.isNewUser) {
+                console.log(authResult, redirectUrl);
+                /* if (authResult.additionalUserInfo.isNewUser) {
                   database
                     .ref("users/" + authResult.user.uid)
                     .set("Default message maybe?");
-                }
+                } */
+              },
+              signInFailure: (error) => {
+                // Some unrecoverable error occurred during sign-in.
+                // Return a promise when error handling is completed and FirebaseUI
+                // will reset, clearing any UI. This commonly occurs for error code
+                // 'firebaseui/anonymous-upgrade-merge-conflict' when merge conflict
+                // occurs. Check below for more details on this.
+                console.log(error);
               },
             },
           });
